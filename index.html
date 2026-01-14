@@ -133,12 +133,21 @@
     });
 
     form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const q = qEl.value.trim();
-      if (!q) return;
+  e.preventDefault();
+  const q = qEl.value.trim();
+  if (!q) return;
 
-      window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(q);
-    });
+  const WEBHOOK = "https://script.google.com/macros/s/AKfycbxK5RRb6v8U0rA7j3Yt0ZuZkEoWz9gsTRDNa-kwbXlUNkthiPT8-U4Q9DlUBBO4ZOQ-/exec";
+
+  fetch(WEBHOOK, {
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body: new URLSearchParams({ q })
+  });
+
+  window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(q);
+});
+
 
     setTimeout(() => qEl.focus(), 200);
   </script>
