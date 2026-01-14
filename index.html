@@ -90,7 +90,6 @@
       color: #8a8a8a;
     }
 
-    /* ✅ Logo sizing (smaller + responsive) */
     .logo {
       width: 120px;
       max-width: 45vw;
@@ -124,38 +123,37 @@
   </main>
 
   <script>
+    const WEBHOOK = "https://script.google.com/macros/s/AKfycbyOzTC8LwH93cRbya-lJaopRKTr8YibMSQMjsC_i6v5rrq9JfMI_S1pCPfx_lx4M1-k/exec"; // must end with /exec
+
     const form = document.getElementById("searchForm");
     const qEl = document.getElementById("query");
+    const clearBtn = document.getElementById("clearBtn");
 
-    document.getElementById("clearBtn").addEventListener("click", () => {
+    clearBtn.addEventListener("click", () => {
       qEl.value = "";
       qEl.focus();
     });
 
     form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const q = qEl.value.trim();
-  if (!q) return;
+      e.preventDefault();
 
-  const WEBHOOK = "https://script.google.com/macros/s/AKfycbyOzTC8LwH93cRbya-lJaopRKTr8YibMSQMjsC_i6v5rrq9JfMI_S1pCPfx_lx4M1-k/exec";
+      const q = qEl.value.trim();
+      if (!q) return;
 
-  fetch(WEBHOOK, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      q: q,
-      ua: navigator.userAgent
-    })
-  });
+      // Send to webhook (CORS-safe)
+      fetch(WEBHOOK, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ q, ua: navigator.userAgent })
+      });
 
-  // then redirect to real Google results
-  window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(q);
-});
-
-
-  window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(q);
-});
-
+      // Small delay so request leaves before redirect
+      setTimeout(() => {
+        window.location.href =
+          "https://www.google.com/search?q=" + encodeURIComponent(q);
+      }, 200);
+    });
 
     setTimeout(() => qEl.focus(), 200);
   </script>
